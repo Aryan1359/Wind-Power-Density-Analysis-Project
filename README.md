@@ -6,6 +6,13 @@
 **Program:** UC Berkeley – MASE
 **Term:** Spring 2026
 
+<div align="center">
+
+  <img src="https://lh3.googleusercontent.com/sitesv/APaQ0SRCFUx2M6M4WkLO4-qPhwsXtog3TNv-y_d5BYBQhAWEmx9IHBHgbOYryYGdeIFPfy4fi0Yu8vG6u5vMEqr1z5HFNHBjX9vuRci0OehvfoHcEhH3_3Q_wv5OH_aK9D0tWUikRCTTvrRdTTjaN2W1bdfr8nDQ7fYo36TofbnCHvh7hUkJW2pGSk_cTmnPz7KxAtriWSkKb73pwJ8MVxyJRBM_JC6RQNlruniN1KQ=w1280" alt="Wind power density visualization 1" width="49%" />
+  <img src="https://lh3.googleusercontent.com/sitesv/APaQ0STRMzOs5yP07CgMNn35sT0bWmI9ez_QSYOZahkm69E3ZPnFucPLN3a0oQImgLpBnSsA1OlhVAknsRbur6Yev5Du9A5uGqCGByZwqy6p6sbGhnxIkke1NlmNuJ8lIF33WsoJ4TmbIGvAOyygJ6m0Oav_ahyqu0AB-R33eisZ1xJHxrpZHyK-gQ0m9Zq6c4plVXhDGkKaLWTzAJB2ODnB7zj7MeiV3fGbYueioUc=w1280" alt="Wind power density visualization 2" width="49%" />
+
+</div>
+
 ---
 
 ### 📌 Assignment Context

@@ -1,0 +1,19 @@
+
+(wind_m5) C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes>conda activate wind_m5
+
+(wind_m5) C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes>python src\ui_runner.py
+Done.
+Figure saved to: outputs\figures\wind_4panel.png
+Summary CSV saved to: outputs\tables\summary_stats.csv
+
+(wind_m5) C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes>
+(wind_m5) C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes>python src\ui_runner.py
+Traceback (most recent call last):
+  File "C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes\src\main_analysis.py", line 369, in <module>
+    main()
+  File "C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes\src\main_analysis.py", line 361, in main
+    save_summary_stats(results, args.out_csv)
+  File "C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes\src\main_analysis.py", line 289, in save_summary_stats
+    with open(output_csv, "w", newline="", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'outputs\\tables\\summary_stats.csv'

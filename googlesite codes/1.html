@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 5 — Step 1: Project Overview</title>
+  <style>
+    :root{
+      --bg:#050814;
+      --card:#0f172a;
+      --text:#f4f7ff;
+      --muted:#c7d2f3;
+      --line: rgba(255,255,255,0.18);
+      --accent:#6aa7ff;
+      --accent2:#7cf7c6;
+      --warn:#ffd36a;
+      --shadow: 0 10px 30px rgba(0,0,0,0.45);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
+      background: radial-gradient(900px 450px at 15% 10%, rgba(106,167,255,0.20), transparent 60%),
+                  radial-gradient(700px 380px at 85% 20%, rgba(124,247,198,0.16), transparent 55%),
+                  linear-gradient(180deg, var(--bg), #020617 75%);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width: 980px; margin: 0 auto; padding: 22px 16px 40px}
+
+    /* top pills */
+    .topbar{
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      gap:10px; padding:10px 12px; border:1px solid var(--line);
+      background: rgba(15,23,42,0.85); border-radius: 999px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,0.9);
+      font-size: 13px; color: var(--muted);
+      white-space: nowrap;
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background: var(--accent2); box-shadow:0 0 0 3px rgba(124,247,198,0.25)}
+    .dot2{background: var(--accent); box-shadow:0 0 0 3px rgba(106,167,255,0.25)}
+    .mono{font-family:var(--mono)}
+
+    /* header */
+    header{
+      margin-top:16px;
+      padding: 18px 18px 16px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(15,23,42,0.9));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 250px at 20% 0%, rgba(106,167,255,0.16), transparent 60%),
+          radial-gradient(700px 260px at 90% 20%, rgba(124,247,198,0.14), transparent 60%);
+      pointer-events:none;
+    }
+    .headgrid{position:relative; display:grid; grid-template-columns: 1.15fr .85fr; gap:14px; align-items:stretch}
+    .title{margin:0; font-size: 24px; letter-spacing:.2px}
+    .subtitle{margin:6px 0 0; color:var(--muted); line-height:1.45}
+
+    .meta{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,0.95);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .meta h3{margin:0 0 8px; font-size: 13px; color:#d8e3ff; letter-spacing:.3px}
+    .kv{display:grid; grid-template-columns: 120px 1fr; gap:6px 10px; font-size: 13px}
+    .k{color:var(--muted)}
+    .v{color:var(--text)}
+    .v code{font-family:var(--mono); font-size:12px; color:#e2ecff; background: rgba(15,23,42,0.9); padding:2px 6px; border-radius:8px; border:1px solid var(--line)}
+
+    /* cards/grid */
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(15,23,42,0.92);
+      box-shadow: var(--shadow);
+      padding: 14px 14px;
+      position: relative;
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size: 15px;
+      color:#eaf1ff;
+      letter-spacing:.2px;
+    }
+    .badge{
+      display:inline-flex; align-items:center;
+      padding:3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      color:#e6f0ff;
+      border:1px solid rgba(106,167,255,0.55);
+      background: rgba(15,23,42,0.9);
+      margin-left:6px;
+      vertical-align: middle;
+    }
+    .list{margin:8px 0 0; padding-left:18px; color:var(--muted); line-height:1.55}
+    .list li{margin:6px 0}
+    p{margin:8px 0; color:var(--muted); line-height:1.55}
+    b{color:#eaf1ff}
+    .callout{
+      margin-top: 10px;
+      border:1px solid rgba(255,211,106,0.55);
+      background: rgba(15,23,42,0.96);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .callout h3{
+      margin:0 0 6px;
+      font-size: 13px;
+      letter-spacing:.2px;
+      display:flex; align-items:center; gap:10px;
+      color:#fff2c7;
+    }
+    .tri{
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 10px solid var(--warn);
+      filter: drop-shadow(0 0 8px rgba(255,211,106,0.35));
+    }
+    .callout p{margin:6px 0; color: var(--muted); line-height:1.55}
+
+    .steps{
+      margin-top: 10px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,0.96);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .steps .row{
+      display:grid; grid-template-columns: 44px 1fr;
+      gap: 10px; padding: 12px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .steps .row:last-child{border-bottom:none}
+    .num{
+      width: 34px; height: 34px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(106,167,255,0.18);
+      border:1px solid rgba(106,167,255,0.55);
+      color:#dceaff; font-weight:700;
+    }
+    .row b{color:#eaf1ff}
+    .row span{display:block; color:var(--muted); margin-top:4px; line-height:1.45}
+
+    /* footer */
+    .footer{
+      margin-top: 16px;
+      padding: 14px 14px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(15,23,42,0.95);
+      color: var(--muted);
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .links{display:flex; flex-wrap:wrap; gap:10px}
+    .linkbtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,0.9);
+      color:#dbe6ff; font-size: 13px;
+    }
+    .linkbtn:hover{border-color: rgba(106,167,255,55); text-decoration:none}
+
+    @media (max-width: 860px){
+      .headgrid{grid-template-columns: 1fr}
+      .grid{grid-template-columns: 1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Top mini-nav (safe to paste into Google Sites embed) -->
+    <div class="topbar">
+      <div class="pill"><span class="dot"></span> Module 5 — Wind Energy</div>
+      <div class="pill"><span class="dot2"></span> Wind Power Density Analysis Project</div>
+      <div class="pill mono">Step 1 / 6</div>
+    </div>
+
+    <header>
+      <div class="headgrid">
+        <div>
+          <h1 class="title">Step 1 — Project Overview & Goal</h1>
+          <p class="subtitle">
+            This step defines the project objective, inputs/outputs, and the end-to-end workflow used to convert a
+            <b>color-coded wind map</b> into <b>wind speed</b> and <b>wind power density</b> on a <b>20×20 grid</b>.
+          </p>
+        </div>
+
+        <div class="meta">
+          <h3>Project Metadata</h3>
+          <div class="kv">
+            <div class="k">Course</div><div class="v">A First Course in Renewable Energy</div>
+            <div class="k">Module</div><div class="v">Module 5 — Wind Energy</div>
+            <div class="k">Student</div><div class="v">Aryan Yaghobi</div>
+            <div class="k">Outputs</div><div class="v"><code>4-panel figure</code> + <code>summary CSV</code></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Project goal <span class="badge">Why this matters</span></h2>
+        <p>
+          Wind maps are informative but primarily <b>visual</b>. This project demonstrates a reproducible method
+          to extract that visual information into <b>numerical data</b> suitable for analysis and comparison.
+        </p>
+        <ul class="list">
+          <li><b>Convert colors → wind speeds</b> by calibrating to the on-screen legend.</li>
+          <li><b>Sample spatially</b> using a consistent <b>20×20 grid</b> across the region.</li>
+          <li><b>Quantify energy potential</b> via wind power density, enabling offshore vs onshore comparisons.</li>
+        </ul>
+
+        <div class="callout">
+          <h3><span class="tri"></span>Key insight</h3>
+          <p>
+            Wind power density scales with <span class="mono">v³</span>. Small differences in wind speed can produce
+            large differences in energy potential, which is why offshore regions often stand out.
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Inputs & outputs <span class="badge">Scope</span></h2>
+        <p><b>Input artifact</b> (single screenshot must include):</p>
+        <ul class="list">
+          <li><b>Study area</b>: California + offshore Pacific region of interest</li>
+          <li><b>Wind overlay</b>: color-coded wind layer enabled</li>
+          <li><b>Legend</b>: visible wind-speed colorbar (mph) used for calibration</li>
+        </ul>
+
+        <p style="margin-top:10px;"><b>Project outputs</b> generated by the analysis pipeline:</p>
+        <ul class="list">
+          <li><b>4-panel figure</b>: original image, average-color grid, wind speed map, power density map</li>
+          <li><b>Summary CSV</b>: min / mean / max values (wind speed + power density)</li>
+          <li><b>Interpretation</b>: offshore vs onshore patterns + caveats (labels/overlays)</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:14px;">
+      <h2>Workflow overview <span class="badge">End-to-end pipeline</span></h2>
+      <p>
+        The workflow is implemented in Python (NumPy + Matplotlib + PIL) and can be run via a simple UI
+        that supports screenshot selection and drag-box legend capture.
+      </p>
+
+      <div class="steps">
+        <div class="row">
+          <div class="num">1</div>
+          <div>
+            <b>Capture a wind map screenshot</b>
+            <span>Use Zoom Earth wind layer; keep the legend visible in the same image.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">2</div>
+          <div>
+            <b>Calibrate using the legend</b>
+            <span>Select the legend region to map RGB color values to wind speed (mph).</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">3</div>
+          <div>
+            <b>Grid sampling (20×20)</b>
+            <span>Compute average RGB per grid cell to represent local wind color robustly.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">4</div>
+          <div>
+            <b>Compute wind power density</b>
+            <span>Convert mph → m/s, then compute power density per cell using <span class="mono">P = ½ ρ v³</span>.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">5</div>
+          <div>
+            <b>Generate figures + summary tables</b>
+            <span>Export a 4-panel visualization and min/mean/max statistics for reporting.</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:10px;">
+        <b>Next step:</b> document the data source (Zoom Earth) and the screenshot/legend requirements that make the
+        color-to-wind-speed mapping reliable.
+      </p>
+    </section>
+
+    <section class="footer">
+      <div>
+        <div style="font-weight:700; color:#dbe6ff;">Canonical project links</div>
+        <div style="margin-top:4px;">
+          Code + outputs live in the public GitHub repository, and the Google Site documents the method step-by-step.
+        </div>
+      </div>
+      <div class="links">
+        <a class="linkbtn" href="https://github.com/Aryan1359/Wind-Power-Density-Analysis-Project" target="_blank" rel="noopener">
+          <span>GitHub Repository</span> <span aria-hidden="true">↗</span>
+        </a>
+        <a class="linkbtn" href="REPLACE_WITH_MODULE5_GOOGLE_SITE_URL" target="_blank" rel="noopener">
+          <span>Google Site (Module 5)</span> <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

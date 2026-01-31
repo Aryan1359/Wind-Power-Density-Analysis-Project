@@ -1,0 +1,337 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 5 — Step 2: Data Source (Zoom Earth)</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a2e;
+      --text:#e9eefb;
+      --muted:#b9c4dd;
+      --line: rgba(255,255,255,.12);
+      --accent:#6aa7ff;
+      --accent2:#7cf7c6;
+      --warn:#ffd36a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
+      background: radial-gradient(900px 450px at 15% 10%, rgba(106,167,255,.20), transparent 60%),
+                  radial-gradient(700px 380px at 85% 20%, rgba(124,247,198,.14), transparent 55%),
+                  linear-gradient(180deg, var(--bg), #070b14 75%);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width: 980px; margin: 0 auto; padding: 22px 16px 40px}
+    .topbar{
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      gap:10px; padding:10px 12px; border:1px solid var(--line);
+      background: rgba(255,255,255,.04); border-radius: 999px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      font-size: 13px; color: var(--muted);
+      white-space: nowrap;
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background: var(--accent2); box-shadow:0 0 0 3px rgba(124,247,198,.12)}
+    .dot2{background: var(--accent); box-shadow:0 0 0 3px rgba(106,167,255,.12)}
+    header{
+      margin-top:16px;
+      padding: 18px 18px 16px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 250px at 20% 0%, rgba(106,167,255,.20), transparent 60%),
+                  radial-gradient(700px 260px at 90% 20%, rgba(124,247,198,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .headgrid{position:relative; display:grid; grid-template-columns: 1.15fr .85fr; gap:14px; align-items:stretch}
+    .title{margin:0; font-size: 24px; letter-spacing:.2px}
+    .subtitle{margin:6px 0 0; color:var(--muted); line-height:1.45}
+    .meta{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .meta h3{margin:0 0 8px; font-size: 13px; color:#d8e3ff; letter-spacing:.3px}
+    .kv{display:grid; grid-template-columns: 120px 1fr; gap:6px 10px; font-size: 13px}
+    .k{color:var(--muted)}
+    .v{color:var(--text)}
+    .v code{font-family:var(--mono); font-size:12px; color:#d9e6ff; background: rgba(255,255,255,.06); padding:2px 6px; border-radius:8px; border:1px solid var(--line)}
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px 14px 12px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size: 16px;
+      letter-spacing:.2px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .badge{
+      font-size:12px; color:#0b1220;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      padding: 3px 8px; border-radius:999px; font-weight:700;
+    }
+    .card p{margin: 8px 0; color: var(--muted); line-height:1.55}
+    .list{margin:10px 0 0; padding:0; list-style:none}
+    .list li{
+      margin: 8px 0; padding:10px 10px;
+      border:1px dashed rgba(255,255,255,.16);
+      border-radius: 12px;
+      background: rgba(0,0,0,.14);
+      color: var(--text);
+      line-height:1.45;
+    }
+    .list li b{color:#eaf1ff}
+    .callout{
+      margin-top:14px;
+      border:1px solid rgba(255,211,106,.35);
+      background: rgba(255,211,106,.10);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .callout h3{margin:0 0 6px; font-size: 14px; display:flex; align-items:center; gap:10px}
+    .tri{
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 10px solid var(--warn);
+      filter: drop-shadow(0 0 8px rgba(255,211,106,.25));
+    }
+    .callout p{margin:6px 0; color: var(--muted); line-height:1.55}
+    .steps{
+      margin-top: 14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .steps .row{
+      display:grid; grid-template-columns: 44px 1fr;
+      gap: 10px; padding: 12px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .steps .row:last-child{border-bottom:none}
+    .num{
+      width: 34px; height: 34px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(106,167,255,.15);
+      border:1px solid rgba(106,167,255,.35);
+      color:#dceaff; font-weight:700;
+    }
+    .row b{color:#eaf1ff}
+    .row span{display:block; color:var(--muted); margin-top:4px; line-height:1.45}
+    .footer{
+      margin-top: 16px;
+      padding: 14px 14px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .links{display:flex; flex-wrap:wrap; gap:10px}
+    .linkbtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.20);
+      color:#dbe6ff; font-size: 13px;
+    }
+    .linkbtn:hover{border-color: rgba(106,167,255,.55); text-decoration:none}
+    .mono{font-family:var(--mono)}
+    @media (max-width: 860px){
+      .headgrid{grid-template-columns: 1fr}
+      .grid{grid-template-columns: 1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Top mini-nav (safe to paste into Google Sites embed) -->
+    <div class="topbar">
+      <div class="pill"><span class="dot"></span> Module 5 — Wind Energy</div>
+      <div class="pill"><span class="dot2"></span> Wind Power Density Analysis Project</div>
+      <div class="pill mono">Step 2 / 6</div>
+    </div>
+
+    <header>
+      <div class="headgrid">
+        <div>
+          <h1 class="title">Step 2 — Data Source (Zoom Earth)</h1>
+          <p class="subtitle">
+            This step documents <b>where the wind data comes from</b> and <b>how we capture it</b> in a form
+            suitable for quantitative analysis (grid sampling → wind speed mapping → power density).
+          </p>
+        </div>
+
+        <div class="meta">
+          <h3>Project Metadata</h3>
+          <div class="kv">
+            <div class="k">Course</div><div class="v">A First Course in Renewable Energy</div>
+            <div class="k">Module</div><div class="v">Module 5 — Wind Energy</div>
+            <div class="k">Student</div><div class="v">Aryan Yaghobi</div>
+            <div class="k">Artifact</div><div class="v"><code>Zoom Earth wind map screenshot</code> + <code>legend</code></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>What is Zoom Earth used for? <span class="badge">Data Layer</span></h2>
+        <p>
+          Zoom Earth provides an interactive wind visualization layer. For this project, the wind map acts as a
+          <b>visual dataset</b>: each pixel color corresponds to a wind speed value defined by the on-screen legend.
+        </p>
+        <ul class="list">
+          <li><b>Wind map</b> → provides spatial wind patterns over California and offshore waters.</li>
+          <li><b>Color legend</b> → provides the calibration reference (color ↔ wind speed).</li>
+          <li><b>Screenshot</b> → freezes a single moment in time so the same inputs can be analyzed reproducibly.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Why we use a screenshot <span class="badge">Reproducibility</span></h2>
+        <p>
+          The wind layer is dynamic (it changes with time and user interaction). A screenshot is treated as a
+          <b>static dataset snapshot</b>, allowing the analysis to be repeated and audited.
+        </p>
+        <ul class="list">
+          <li><b>Deterministic input</b>: the analysis pipeline is fully reproducible when the same image is used.</li>
+          <li><b>Shareable</b>: the screenshot can be stored in GitHub alongside code and outputs.</li>
+          <li><b>Traceable</b>: the legend captured in the same image documents the mapping assumptions.</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:14px;">
+      <h2>Screenshot requirements <span class="badge">Quality Control</span></h2>
+      <p>
+        For the wind-speed extraction to work reliably, the screenshot must preserve both the <b>map region</b> and the
+        <b>wind-speed legend</b> without ambiguity. Small capture mistakes (cropping, blur, overlays) can introduce
+        systematic errors in wind speed and power density estimates.
+      </p>
+
+      <div class="grid" style="margin-top:12px;">
+        <div class="card" style="box-shadow:none; background:rgba(0,0,0,.16);">
+          <h2 style="font-size:15px; margin-bottom:6px;">Must be visible</h2>
+          <ul class="list">
+            <li><b>Entire study area</b> (California + offshore region of interest)</li>
+            <li><b>Wind legend scale</b> (colorbar with labeled wind speeds)</li>
+            <li><b>Clean wind colors</b> (avoid heavy transparency filters)</li>
+            <li><b>Consistent zoom</b> (avoid perspective distortions from partial captures)</li>
+          </ul>
+        </div>
+
+        <div class="card" style="box-shadow:none; background:rgba(0,0,0,.16);">
+          <h2 style="font-size:15px; margin-bottom:6px;">Avoid if possible</h2>
+          <ul class="list">
+            <li><b>Text overlays</b> covering the map (labels can be interpreted as low wind or invalid pixels)</li>
+            <li><b>Legend cropped</b> (breaks the RGB → wind speed calibration)</li>
+            <li><b>Motion blur / compression</b> (blends colors and shifts RGB averages)</li>
+            <li><b>UI panels</b> obscuring the region (menus, popups, tooltips)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h3><span class="tri"></span>Why screenshot quality matters</h3>
+        <p>
+          In this project, wind speed is inferred from color. If the screenshot compresses or blends colors,
+          the RGB values measured in each grid cell drift away from the legend reference colors. That drift
+          propagates to wind speed and then to wind power density.
+        </p>
+        <p>
+          Because wind power density scales with <span class="mono">v³</span>, small wind-speed errors can
+          amplify into large power-density errors.
+        </p>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
+      <h2>Capture workflow (what the user does) <span class="badge">Practical Steps</span></h2>
+      <p>
+        The workflow below is the minimal, repeatable process used before running the analysis UI.
+      </p>
+
+      <div class="steps">
+        <div class="row">
+          <div class="num">1</div>
+          <div>
+            <b>Open Zoom Earth and enable the wind layer</b>
+            <span>Set the map view so the target region is fully visible. Ensure the wind color overlay is active.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">2</div>
+          <div>
+            <b>Confirm the legend is visible and readable</b>
+            <span>The legend is the calibration reference. It must remain on screen when the screenshot is taken.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">3</div>
+          <div>
+            <b>Take a high-resolution screenshot</b>
+            <span>Prefer native OS screenshots (not a compressed messenger export). Save as PNG when possible.</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="num">4</div>
+          <div>
+            <b>Run the project UI and select inputs</b>
+            <span>Choose the screenshot file, then draw a drag-box around the legend to capture the color scale.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div>
+        <div style="font-weight:700; color:#dbe6ff;">Canonical project links</div>
+        <div style="margin-top:4px;">
+          Code + outputs live in the public GitHub repository, and this Google Site documents the method step-by-step.
+        </div>
+      </div>
+      <div class="links">
+        <a class="linkbtn" href="https://github.com/Aryan1359/Wind-Power-Density-Analysis-Project" target="_blank" rel="noopener">
+          <span>GitHub Repository</span> <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
+```

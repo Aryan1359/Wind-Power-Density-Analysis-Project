@@ -1,0 +1,15 @@
+input_file,C:\Users\aryan\OneDrive\Aryan-Master-Workspace\Berkeley MASE\Courses\Current Cources Spring 2026\2-6- A First Course in Renewable Energy\M5\M5 Final Project\codes\data\raw\1.png
+run_timestamp,20260131_113128
+grid_size,20
+mph_min,0.0
+mph_max,40.0
+legend_box_coordinates,"x1=8, y1=3, x2=519, y2=538"
+
+quantity,min,mean,max,unit
+wind_speed,0.0,5.464581898039216,17.67122823529412,m/s
+power_density,0.0,0.8240999157800425,3.379919068964056,kW/m²
+
+Interpretation
+Offshore regions show higher wind speed and power density than inland regions.
+"Power density scales with v^3, so small speed increases cause large power increases."
+Near-zero cells may occur due to map labels/overlays that are not masked.
